@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Tree Balance checker</title>
+<link rel="stylesheet" href="css/bootstrap.css" />
+<style type="text/css">
+.success{
+color: green;
+}
+
+.error{
+color: red;
+}
+
+.success,.error{
+display:none;
+}
+</style>
+</head>
+<body>
+
+<div class="row">
+<div class="col-md-4 col-md-offset-4">
+<h2>Enter brackets to validate using custom Stacks in JavaScript</h2>
+<textarea rows="10" cols="5" style="width:100%" id="text"></textarea>
+<button class="btn" onclick="check()" >Validate</button>
+<span class="success">Balanced tree</span>
+<span class="error">Invalid tree</span>
+</div>
+</div>
+
+
+	<script src="js/jquery-1.11.3.min.js"></script>
+	<script src="js/bootstrap.js"></script>
+	
+	<script type="text/javascript">
+	/*
+	*   Stack implementation in JavaScript
+	*/
+
+	function Stack(){
+	    this.top = null;
+	    this.count = 0;
+
+	    this.isEmpty = function(){
+	        return this.count;
+	    }
+
+	    this.GetTop = function(){
+	        return this.top;
+	    }
+
+	    this.Push = function(data){
+	        var node = {
+	            data : data,
+	            next : null
+	        }
+
+	        node.next = this.top;
+	        this.top = node;
+
+	        this.count++;
+	    }
+
+	    this.Peek = function(){
+	        if(this.top === null){
+	            return null;
+	        }else{
+	            return this.top.data;
+	        }
+	    }
+
+	    this.Pop = function(){
+	        if(this.top === null){
+	            return null;
+	        }else{
+	            var out = this.top;
+	            this.top = this.top.next;
+	            if(this.count>0){
+	                this.count--;
+	            }
+
+	            return out.data;
+	        }
+	    }
+		
+	    
+	    this.DisplayAll = function(){
+	        if(this.top === null){
+	            return null;
+	        }else{
+	            var arr = new Array();
+
+	            var current = this.top;
+	            //console.log(current);
+	            for(var i = 0;i<this.count;i++){
+	                arr[i] = current.data;
+	                current = current.next;
+	            }
+
+	            return arr;
+	        }
+	    }
+	}
+	
+	function isBalanced(){
+	
+	 	var str = $("#text").val();
+	 	 if (str.charAt(0) == '}' || str.charAt(0) == ']' || str.charAt(0) == ')')
+	         return false;
+  
+	    var stack = new Stack();
+	    
+	    var c;
+	    for(var i=0; i < str.length; i++) {
+	        c = str.charAt(i);
+
+	        if(c == '(')
+	            stack.Push(c);
+	        else if(c == '{')
+	            stack.Push(c);
+	        else if(c == '[')
+	            stack.Push(c);
+	        else if(c == ')')
+	            if(stack.isEmpty()==0)
+	                return false;
+	            else if(stack.Peek() == '(')
+	                stack.Pop();
+	            else
+	                return false;
+	        else if(c == '}')
+	            if(stack.isEmpty()==0)
+	                return false;
+	            else if(stack.Peek() == '{')
+	                stack.Pop();
+	            else
+	                return false;
+	        else if(c == ']')
+	            if(stack.isEmpty()==0)
+	                return false;
+	            else if(stack.Peek() == '[')
+	                stack.Pop();
+	            else
+	                return false;
+	    }
+	    return stack.isEmpty()==0;
+		
+	}
+	    
+	    
+function check(){
+	if(isBalanced()){
+		$(".success").css('display','block');
+		$(".error").css('display','none');
+	}	
+	else{
+
+		$(".success").css('display','none');
+		$(".error").css('display','block');
+	}
+	}    
+	
+	</script>
+</body>
+</html>

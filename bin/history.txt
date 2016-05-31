@@ -1,0 +1,11 @@
+goto http://google.com
+back
+goto http://flipkart.com
+back
+next
+back
+back
+next
+goto http://youtube.com
+goto http://paytm.com
+back
